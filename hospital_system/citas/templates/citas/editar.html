@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar cita</title>
+  {% load static %}
+  <link rel="icon" href="{% static 'img/favicon.png' %}?v=2" type="image/png">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #2c3e50, #4ca1af);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      animation: fadeIn 1s ease-in;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 2px solid #fff;
+      padding-bottom: 0.5rem;
+    }
+
+    form {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      width: 90%;
+      max-width: 500px;
+    }
+
+    form p {
+      margin-bottom: 1rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 0.3rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #ecf0f1;
+      font-size: 1rem;
+      color: #2c3e50;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.8rem 1.5rem;
+      background-color: #00ffd5;
+      color: #2c3e50;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 1.1rem;
+    }
+
+    button:hover {
+      background-color: #1abc9c;
+      color: #fff;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <h2>Editar cita</h2>
+  <form method="post">
+  {% csrf_token %}
+
+  <p>
+    {{ form.medico.label_tag }}
+    {{ form.medico }}
+    {% if form.medico.errors %}
+      <span style="color: red;">{{ form.medico.errors }}</span>
+    {% endif %}
+  </p>
+
+  <p>
+    {{ form.fecha.label_tag }}
+    {{ form.fecha }}
+    {% if form.fecha.errors %}
+      <span style="color: red;">{{ form.fecha.errors }}</span>
+    {% endif %}
+  </p>
+
+  <p>
+    {{ form.hora.label_tag }}
+    {{ form.hora }}
+    {% if form.hora.errors %}
+      <span style="color: red;">{{ form.hora.errors }}</span>
+    {% endif %}
+  </p>
+
+  <p>
+    {{ form.motivo.label_tag }}
+    {{ form.motivo }}
+    {% if form.motivo.errors %}
+      <span style="color: red;">{{ form.motivo.errors }}</span>
+    {% endif %}
+  </p>
+
+  <p>
+    {{ form.estado.label_tag }}
+    {{ form.estado }}
+    {% if form.estado.errors %}
+      <span style="color: red;">{{ form.estado.errors }}</span>
+    {% endif %}
+  </p>
+
+  <button type="submit">Guardar cambios</button>
+</form>
+</body>
+</html>

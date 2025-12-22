@@ -1,0 +1,8 @@
+<h2>Horas disponibles para hoy</h2>
+<ul>
+  {% for hora in libres %}
+    <li>{{ hora }}</li>
+  {% empty %}
+    <li>No hay horas disponibles</li>
+  {% endfor %}
+</ul>

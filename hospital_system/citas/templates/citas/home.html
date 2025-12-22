@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Bienvenido al sistema de citas</title>
+  {% load static %}
+  <link rel="icon" href="{% static 'img/favicon.png' %}?v=2" type="image/png">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap & Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Lottie Player -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+  <style>
+    :root {
+      --bg-light: linear-gradient(to right, #e0f7fa, #ffffff);
+      --bg-dark: #121212;
+      --text-light: #555;
+      --text-dark: #f1f1f1;
+    }
+
+    body {
+      background: var(--bg-light);
+      color: var(--text-light);
+      font-family: 'Segoe UI', sans-serif;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    body.modo-oscuro {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    .card {
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    body.modo-oscuro .card {
+      background-color: #1e1e1e;
+      color: var(--text-dark);
+    }
+
+    .modo-oscuro .btn {
+      background-color: #333 !important;
+      color: #f1f1f1 !important;
+      border-color: #555 !important;
+    }
+
+    .hero {
+      padding: 60px 0;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+    }
+
+    .btn-animated {
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .btn-animated:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    footer {
+      text-align: center;
+      color: #888;
+      font-size: 0.9rem;
+      padding: 20px 0;
+    }
+
+    .btn-volver {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;              /* ancho fijo */
+  height: 56px;             /* alto fijo */
+  display: flex;            /* centra el icono */
+  align-items: center;
+  justify-content: center;
+  background-color: #0d6efd;
+  color: white;
+  border-radius: 50%;       /* forma circular */
+  font-size: 1.2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 1000;
+  transition: background 0.3s ease;
+  text-decoration: none;
+}
+
+  .btn-volver:hover {
+    background-color: #0b5ed7;
+    text-decoration: none;
+  }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body id="body">
+
+  <!-- Toggle modo oscuro con interruptor deslizante -->
+  <div class="d-flex justify-content-end align-items-center p-3">
+  <label class="form-check-label me-2 d-flex align-items-center gap-2" for="modoOscuroToggle">
+    <i id="iconoModo" class="fa-solid fa-moon fa-lg"></i>
+    <span>Modo oscuro</span>
+  </label>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="modoOscuroToggle">
+  </div>
+  </div>
+
+  <!-- Hero principal -->
+  <div class="container hero text-center">
+    <div class="d-flex justify-content-center mb-4">
+      <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_9cyyl8i4.json"
+                     background="transparent" speed="1"
+                     style="width: 250px; height: 250px;" loop autoplay>
+      </lottie-player>
+    </div>
+
+    <h1><i class="fa-solid fa-hospital-user me-2"></i> Bienvenido al sistema de citas</h1>
+    <p>Gestiona tus citas médicas de forma rápida, segura y eficiente.</p>
+
+    <div class="mt-4 d-flex justify-content-center gap-4 flex-wrap">
+  {% if user.tipo_usuario == 'doctor' %}
+    <a href="{% url 'panel_medico' %}" class="btn btn-warning btn-lg btn-animated">
+      <i class="fa-solid fa-user-doctor me-2"></i> Panel médico
+    </a>
+    <a href="{% url 'citas:lista_citas' %}" class="btn btn-primary btn-lg btn-animated">
+      <i class="fa-solid fa-list-ul me-2"></i> Ver citas
+    </a>
+  {% else %}
+    <a href="{% url 'citas:agendar_cita' %}" class="btn btn-success btn-lg btn-animated">
+      <i class="fa-solid fa-calendar-plus me-2"></i> Agendar Cita
+    </a>
+  {% endif %}
+  <a href="{% url 'citas:lista_citas' %}" class="btn btn-danger btn-lg btn-animated">
+    <i class="fa-solid fa-list-ul me-2"></i> Ver mis citas
+  </a>
+</div>
+  </div>
+
+  {% if user.tipo_usuario == 'doctor' %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="card shadow-sm text-center">
+          <div class="card-body">
+            <h5 class="card-title">Citas hoy</h5>
+            <p class="display-6">{{ citas_hoy }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card shadow-sm text-center">
+          <div class="card-body">
+            <h5 class="card-title">Pacientes registrados</h5>
+            <p class="display-6">{{ total_pacientes }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Script modo oscuro funcional con ícono dinámico y persistencia -->
+  <script>
+    const toggle = document.getElementById('modoOscuroToggle');
+    const body = document.getElementById('body');
+    const icono = document.getElementById('iconoModo');
+
+    function actualizarIcono(oscuro) {
+      if (icono) {
+        icono.classList.remove('fa-sun', 'fa-moon');
+        icono.classList.add(oscuro ? 'fa-sun' : 'fa-moon');
+      }
+    }
+
+    const modoGuardado = localStorage.getItem('modoOscuro') === 'true';
+    if (modoGuardado) {
+      body.classList.add('modo-oscuro');
+      if (toggle) toggle.checked = true;
+      actualizarIcono(true);
+    } else {
+      actualizarIcono(false);
+    }
+
+    if (toggle) {
+      toggle.addEventListener('change', () => {
+        const activado = toggle.checked;
+        body.classList.toggle('modo-oscuro', activado);
+        actualizarIcono(activado);
+        localStorage.setItem('modoOscuro', activado);
+      });
+    }
+  </script>
+
+<!-- Footer -->
+    <footer>
+      <p>&copy; {{ now|date:"Y" }} Hospital System | Desarrollado por Barberá Digital Studio</p>
+    </footer>
+
+    <a href="http://127.0.0.1:8000/usuarios/" class="btn-volver" title="Volver a inicio de usuario">
+      <i class="fa-solid fa-house-user"></i>
+    </a>
+</body>
+</html>

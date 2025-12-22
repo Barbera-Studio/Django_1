@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Historial clínico</h2>
+<ul>
+{% for e in encounters %}
+<li><strong>{{ e.date|date:'SHORT_DATETIME_FORMAT' }}</strong> — {{ e.reason }}<br>{{ e.notes }}</li>
+{% empty %}
+<li>No hay registros en tu historial.</li>
+{% endfor %}
+</ul>
+{% endblock %}
