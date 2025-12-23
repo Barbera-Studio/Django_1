@@ -1,11 +1,13 @@
 services:
   - type: web
-    name: colegio-schoolcomms
+    name: django-hospital
     env: python
     buildCommand: |
       pip install -r requirements.txt
       bash render-build.sh
-    startCommand: gunicorn schoolcomms.wsgi:application
+    startCommand: gunicorn hospital_system.wsgi:application
     envVars:
       - key: PYTHON_VERSION
         value: 3.11
+      - key: DJANGO_SETTINGS_MODULE
+        value: hospital_system.settings
