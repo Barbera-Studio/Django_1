@@ -2,7 +2,7 @@ services:
   - type: web
     name: django-hospital
     env: python
-    buildCommand: ""
+    buildCommand: pip install -r requirements.txt
     startCommand: gunicorn hospital_system.wsgi:application
     envVars:
       - key: DJANGO_SETTINGS_MODULE
