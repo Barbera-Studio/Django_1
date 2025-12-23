@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: django-hospital
+    env: python
+    buildCommand: ""
+    startCommand: gunicorn hospital_system.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: hospital_system.settings
+      - key: PYTHON_VERSION
+        value: 3.11
