@@ -2,7 +2,7 @@ services:
   - type: web
     name: django-hospital
     env: python
-    rootDir: hospital_system
+    rootDir: .
     buildCommand: |
       pip install -r requirements.txt
       bash render-build.sh
@@ -12,3 +12,4 @@ services:
         value: 3.11
       - key: DJANGO_SETTINGS_MODULE
         value: hospital_system.settings
+
