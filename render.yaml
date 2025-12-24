@@ -2,6 +2,7 @@ services:
   - type: web
     name: django-hospital
     env: python
+    rootDir: hospital_system
     buildCommand: |
       pip install -r requirements.txt
       bash render-build.sh
